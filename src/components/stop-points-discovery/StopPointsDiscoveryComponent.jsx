@@ -50,7 +50,7 @@ class StopPointsDiscoveryComponent extends React.Component {
         this.markers = L.layerGroup([]).addTo(this.map);
         this.popups = L.layerGroup([]).addTo(this.map);
         L.control.scale().addTo(this.map);
-        L.control.mousePosition({position: "bottomright"}).addTo(this.map);
+        L.control.mousePosition({ position: "bottomright" }).addTo(this.map);
 
         this.map.on("moveend", this.load, this);
         this.load();
@@ -61,34 +61,27 @@ class StopPointsDiscoveryComponent extends React.Component {
     }
 
     load() {
+        if (this.map.getZoom() >= this.props.zoom) {
+            let bounds = this.map.getBounds();
+            let count = this.markers.getLayers().length;
+            if (!this.bounds || !this.bounds.contains(bounds) || count === 0) {
+                let dx = this.diff(bounds.getEast(), bounds.getWest());
+                let dy = this.diff(bounds.getNorth(), bounds.getSouth());
+                this.bounds = new L.LatLngBounds(
+                    new L.LatLng(bounds.getSouth() - dy, bounds.getWest() - dx),
+                    new L.LatLng(bounds.getNorth() + dy, bounds.getEast() + dx)
+                );
+                const options = {
+                    [T.UPPER_LEFT_LONGITUDE]: this.bounds.getNorthWest().lng,
+                    [T.UPPER_LEFT_LATITUDE]: this.bounds.getNorthWest().lat,
+                    [T.LOWER_RIGHT_LONGITUDE]: this.bounds.getSouthEast().lng,
+                    [T.LOWER_RIGHT_LATITUDE]: this.bounds.getSouthEast().lat,
+                };
 
-        let bounds = this.map.getBounds();
-        console.log("[DSU] bounds");
-        console.log(bounds);
-        console.log(this.bounds);
-
-
-        let count = this.markers.getLayers().length;
-        if (!this.bounds || !this.bounds.contains(bounds) || count === 0) {
-            let dx = this.diff(bounds.getEast(), bounds.getWest());
-            let dy = this.diff(bounds.getNorth(), bounds.getSouth());
-            console.log("[DSU] dx: " + dx);
-            console.log("[DSU] dy: " + dy);
-
-            this.bounds = new L.LatLngBounds(
-                new L.LatLng(bounds.getSouth() - dy, bounds.getWest() - dx),
-                new L.LatLng(bounds.getNorth() + dy, bounds.getEast() + dx)
-            );
-            // this.bounds = bounds;
-            const options = {
-                [T.UPPER_LEFT_LONGITUDE]: this.bounds.getNorthWest().lng,
-                [T.UPPER_LEFT_LATITUDE]: this.bounds.getNorthWest().lat,
-                [T.LOWER_RIGHT_LONGITUDE]: this.bounds.getSouthEast().lng,
-                [T.LOWER_RIGHT_LATITUDE]: this.bounds.getSouthEast().lat,
-            };
-            console.log("[DSU] call load");
-            console.log(options);
-            this.props.onChange(options);
+                this.props.onChange(options);
+            }
+        } else {
+            this.props.onClose();
         }
     }
 
@@ -164,7 +157,7 @@ StopPointsDiscoveryComponent.propTypes = {
 StopPointsDiscoveryComponent.defaultProps = {
     url: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     center: [48.866667, 2.333333],
-    zoom: 15,
+    zoom: 16,
     value: []
 };
 

@@ -8,4 +8,4 @@ export const MAXIMUM_STOP_VISITS = "MaximumStopVisits";
 export const MAXIMUM_NUMBER_CALLS_OF_ONWARDS = "MaximumNumberOfCalls.Onwards";
 export const MAXIMUM_NUMBER_CALLS_OF_PREVIOUS = "MaximumNumberOfCalls.Previous";
 
-export const ZOOM = 15;
+export const ZOOM = 14;
