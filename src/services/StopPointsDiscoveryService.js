@@ -2,6 +2,7 @@
 /* eslint-disable no-mixed-operators */
 
 import { from } from 'rxjs';
+import { ajax } from 'rxjs/ajax';
 import { mergeMap, reduce } from 'rxjs/operators';
 import * as T from '../types';
 
@@ -13,6 +14,7 @@ const StopPointsDiscoveryService = {
       const upperLeft = this.toTile(options[T.UPPER_LEFT_LONGITUDE], options[T.UPPER_LEFT_LATITUDE], T.ZOOM);
       const lowerRight = this.toTile(options[T.LOWER_RIGHT_LONGITUDE], options[T.LOWER_RIGHT_LATITUDE], T.ZOOM);
       const urls = [];
+
       for (let y = upperLeft[1]; y <= lowerRight[1]; y += 1) {
         for (let x = upperLeft[0]; x <= lowerRight[0]; x += 1) {
           let url = (process.env.NODE_ENV !== 'production') ? T.PRODUCTION_HOST : '';
@@ -20,14 +22,15 @@ const StopPointsDiscoveryService = {
           urls.push(url);
         }
       }
+
       return from(urls).pipe(
-        mergeMap((url) => this.request(url)),
+        mergeMap((url) => ajax.getJSON(url)),
         reduce((accumulator, value) => accumulator.concat(value)),
       );
     }
     let url = (process.env.NODE_ENV !== 'production') ? T.PRODUCTION_HOST + URL : URL;
     url += options && `?${Object.entries(options).map(([key, value]) => `${key}=${value}`).join('&')}`;
-    return this.request(url);
+    return ajax.getJSON(url);
   },
 
   toTile(lon, lat, zoom) {
@@ -35,12 +38,6 @@ const StopPointsDiscoveryService = {
     const x = Math.floor((lon + 180) / 360 * n);
     const y = Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * n);
     return [x, y];
-  },
-
-  request(url) {
-    return from(fetch(url, {
-      'Content-Type': 'application/json',
-    }).then((response) => response.json()));
   },
 };
 

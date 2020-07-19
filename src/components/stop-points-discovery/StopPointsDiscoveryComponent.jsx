@@ -12,7 +12,7 @@ import actions, { loadStopPointsDiscovery } from '../../actions';
 import * as T from '../../types';
 import StopMonitoringComponent from '../stop-monitoring/StopMonitoringComponent';
 
-import {}  from 'leaflet-mouse-position';
+import { } from 'leaflet-mouse-position';
 
 class StopPointsDiscoveryComponent extends React.Component {
   static diff(a, b) {

@@ -1,7 +1,7 @@
 import { from } from 'rxjs';
 import * as T from '../types';
 
-const URL = '/siri-lite/lines-discovery';
+const URL = '/siri-xlite/lines-discovery';
 
 const LinesDiscoveryService = {
   get(options) {

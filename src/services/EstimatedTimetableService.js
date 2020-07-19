@@ -1,7 +1,7 @@
 import { from } from 'rxjs';
 import * as T from '../types';
 
-const URL = '/siri-lite/estimated-timetable';
+const URL = '/siri-xlite/estimated-timetable';
 
 const EstimatedTimetableService = {
   get(options) {
