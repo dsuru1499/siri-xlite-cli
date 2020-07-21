@@ -172,10 +172,8 @@ StopPointsDiscoveryComponent.defaultProps = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onClose: () => dispatch(actions.stopPointsDiscovery.failure({})),
-  onChange: (options) => {
-    dispatch(loadStopPointsDiscovery(options));
-  },
+  onClose: () => dispatch(actions.stopMonitoring.failure({})),
+  onChange: (options) => dispatch(loadStopPointsDiscovery(options)),
 });
 
 // eslint-disable-next-line no-unused-vars

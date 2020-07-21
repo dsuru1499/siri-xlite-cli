@@ -26,7 +26,8 @@ const StopMonitoringService = {
     const call = v.estimatedCalls[index];
     const expectedDepartureTime = Date.parse(`1970-01-01T${call.expectedDepartureTime}Z`);
     const now = (new Date()).setFullYear(1970, 0, 1);
-    return (expectedDepartureTime > now) ? v : empty();
+    const result = { ...v, index };
+    return (expectedDepartureTime > now) ? result : empty();
   },
 };
 

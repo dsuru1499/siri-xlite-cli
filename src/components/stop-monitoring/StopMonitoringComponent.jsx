@@ -28,8 +28,6 @@ class StopMonitoringComponent extends React.Component {
     const options = {
       [T.MONITORING_REF]: name,
       [T.MAXIMUM_STOP_VISITS]: length,
-      [T.MAXIMUM_NUMBER_CALLS_OF_PREVIOUS]: 0,
-      [T.MAXIMUM_NUMBER_CALLS_OF_ONWARDS]: 0,
     };
     onChange(options);
     this.timer = setInterval(() => {
@@ -39,19 +37,27 @@ class StopMonitoringComponent extends React.Component {
   }
 
   dispose() {
-    const { onClose } = this.props;
+    const { onClose, name, length } = this.props;
     clearInterval(this.timer);
-    onClose();
+    const options = {
+      [T.MONITORING_REF]: name,
+      [T.MAXIMUM_STOP_VISITS]: length,
+    };
+    onClose(options);
   }
 
   render() {
     const { name, values } = this.props;
 
-    const Row = (props) => (
+    const Row = (props) =>  (
       <tr>
-        <th scope="row"><Moment format="HH:mm">{props.value.MonitoredCall.ExpectedDepartureTime}</Moment></th>
-        <td style={{ textTransform: 'uppercase' }}>{props.value.DestinationName}</td>
-        <td style={{ textTransform: 'uppercase' }}>{props.value.PublishedLineName}</td>
+        <th scope="row">
+          <Moment format="HH:mm">
+            {`1970-01-01T${props.value.estimatedCalls[props.value.index].expectedDepartureTime}`}
+          </Moment>
+        </th>
+        <td style={{ textTransform: 'uppercase' }}>{props.value.directionName}</td>
+        <td style={{ textTransform: 'uppercase' }}>{props.value.publishedLineName}</td>
         <td>
           <FontAwesomeIcon style={{ color: 'steelblue' }} icon="bus" />
         </td>
@@ -59,7 +65,7 @@ class StopMonitoringComponent extends React.Component {
     );
 
     const Rows = (props) => ((props.values) ? (props.values.map(
-      (value) => <Row value={value.MonitoredVehicleJourney} key={value.ItemIdentifier} />,
+      (value) => <Row value={value} key={value.datedVehicleJourneyRef} />,
     )) : (null));
 
     const title = `#${this.counter} StopMonitoring: ${name}`;
@@ -95,16 +101,12 @@ StopMonitoringComponent.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onClose: () => dispatch(actions.stopMonitoring.failure({})),
-  onChange: (options) => {
-    dispatch(loadStopMonitoring(options, options[T.MONITORING_REF]));
-  },
+  onClose: (options) => dispatch(actions.stopMonitoring.failure({}, options[T.MONITORING_REF])),
+  onChange: (options) => dispatch(loadStopMonitoring(options, options[T.MONITORING_REF])),
 });
 
-// const selector = createSelector((state, props) => state.stopMonitoring[props.name],
-//   value => value ? value.Siri.StopMonitoringDelivery.MonitoredStopVisit : []);
 const selector = createSelector((state, props) => state.stopMonitoring[props.name],
-  (value) => (value ? [] : []));
+  (value) => value || []);
 
 const mapStateToProps = (state, props) => ({
   name: props.name,
