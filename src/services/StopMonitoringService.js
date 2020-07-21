@@ -10,7 +10,7 @@ const URL = '/siri-xlite/stop-monitoring';
 const StopMonitoringService = {
   get(options) {
     let url = (process.env.NODE_ENV !== 'production') ? T.PRODUCTION_HOST + URL : URL;
-    url += T.SEP + options[T.MONITORING_REF];    
+    url += T.SEP + options[T.MONITORING_REF];
     console.time('stop-monitoring');
     return ajax.getJSON(url).pipe(
       mergeMap((t) => from(t)),
