@@ -2,8 +2,8 @@
 /* eslint-disable no-mixed-operators */
 
 import { from } from 'rxjs';
-import { ajax } from 'rxjs/ajax';
 import { mergeMap, reduce } from 'rxjs/operators';
+import http from './SiriService';
 import * as T from '../types';
 
 const URL = '/siri-xlite/stoppoints-discovery';
@@ -24,13 +24,13 @@ const StopPointsDiscoveryService = {
       }
 
       return from(urls).pipe(
-        mergeMap((url) => ajax.getJSON(url)),
+        mergeMap((url) => http.get(url)),
         reduce((accumulator, value) => accumulator.concat(value)),
       );
     }
     let url = (process.env.NODE_ENV !== 'production') ? T.PRODUCTION_HOST + URL : URL;
     url += options && `?${Object.entries(options).map(([key, value]) => `${key}=${value}`).join('&')}`;
-    return ajax.getJSON(url);
+    return http.getJSON(url);
   },
 
   toTile(lon, lat, zoom) {
