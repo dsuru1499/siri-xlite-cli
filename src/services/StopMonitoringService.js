@@ -5,11 +5,9 @@ import { mergeMap, reduce, concatMap, take, tap, filter } from 'rxjs/operators';
 import http from './SiriService';
 import * as T from '../types';
 
-const URL = '/siri-xlite/stop-monitoring';
-
 const StopMonitoringService = {
   get(options) {
-    let url = (process.env.NODE_ENV !== 'production') ? T.PRODUCTION_HOST + URL : URL;
+    let url = '/siri-xlite/stop-monitoring';
     url += T.SEP + options[T.MONITORING_REF];
     console.time('stop-monitoring');
     return http.get(url).pipe(

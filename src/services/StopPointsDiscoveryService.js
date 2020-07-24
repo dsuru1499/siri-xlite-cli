@@ -17,7 +17,7 @@ const StopPointsDiscoveryService = {
 
       for (let y = upperLeft[1]; y <= lowerRight[1]; y += 1) {
         for (let x = upperLeft[0]; x <= lowerRight[0]; x += 1) {
-          let url = (process.env.NODE_ENV !== 'production') ? T.PRODUCTION_HOST : '';
+          let url = (process.env.NODE_ENV !== 'production') ? T.DEVELOPEMENT_HOST : '';
           url += URL + T.SEP + x + T.SEP + y;
           urls.push(url);
         }
@@ -28,9 +28,9 @@ const StopPointsDiscoveryService = {
         reduce((accumulator, value) => accumulator.concat(value)),
       );
     }
-    let url = (process.env.NODE_ENV !== 'production') ? T.PRODUCTION_HOST + URL : URL;
+    let url = URL;
     url += options && `?${Object.entries(options).map(([key, value]) => `${key}=${value}`).join('&')}`;
-    return http.getJSON(url);
+    return http.get(url);
   },
 
   toTile(lon, lat, zoom) {
