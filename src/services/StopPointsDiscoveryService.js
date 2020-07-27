@@ -17,8 +17,7 @@ const StopPointsDiscoveryService = {
 
       for (let y = upperLeft[1]; y <= lowerRight[1]; y += 1) {
         for (let x = upperLeft[0]; x <= lowerRight[0]; x += 1) {
-          let url = (process.env.NODE_ENV !== 'production') ? T.DEVELOPEMENT_HOST : '';
-          url += URL + T.SEP + x + T.SEP + y;
+          const url = URL + T.SEP + x + T.SEP + y;
           urls.push(url);
         }
       }

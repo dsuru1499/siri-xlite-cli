@@ -13,7 +13,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <StopPointsDiscoveryComponent center={[48.866667, 2.333333]} zoom={16} />
+        <StopPointsDiscoveryComponent />
       </div>
     );
   }

@@ -49,7 +49,7 @@ class StopMonitoringComponent extends React.Component {
   render() {
     const { name, values } = this.props;
 
-    const Row = (props) =>  (
+    const Row = (props) => (
       <tr>
         <th scope="row">
           <Moment format="HH:mm">
