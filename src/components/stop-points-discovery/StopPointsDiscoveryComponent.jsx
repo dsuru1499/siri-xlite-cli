@@ -165,14 +165,14 @@ StopPointsDiscoveryComponent.propTypes = {
 
 /* eslint-disable react/default-props-match-prop-types */
 StopPointsDiscoveryComponent.defaultProps = {
-  url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   center: [48.866667, 2.333333],
   zoom: 16,
   value: [],
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onClose: () => dispatch(actions.stopMonitoring.failure({})),
+  onClose: () => dispatch(actions.stopPointsDiscovery.failure({})),
   onChange: (options) => dispatch(loadStopPointsDiscovery(options)),
 });
 

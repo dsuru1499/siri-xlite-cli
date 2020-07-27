@@ -3,9 +3,9 @@ import { handleActions } from 'redux-actions';
 const reducers = handleActions(
   {
     'LINES_DISCOVERY/SUCCESS': (state, action) => ({ ...state, linesDiscovery: action.payload }),
-    'LINES_DISCOVERY/FAILURE': (state) => ({ ...state, linesDiscovery: {} }),
+    'LINES_DISCOVERY/FAILURE': (state) => ({ ...state, linesDiscovery: [] }),
     'STOP_POINTS_DISCOVERY/SUCCESS': (state, action) => ({ ...state, stopPointsDiscovery: action.payload }),
-    'STOP_POINTS_DISCOVERY/FAILURE': (state) => ({ ...state, stopPointsDiscovery: {} }),
+    'STOP_POINTS_DISCOVERY/FAILURE': (state) => ({ ...state, stopPointsDiscovery: [] }),
     'STOP_MONITORING/SUCCESS': (state, action) => {
       const result = { ...state };
       result.stopMonitoring[action.meta.name] = action.payload;
