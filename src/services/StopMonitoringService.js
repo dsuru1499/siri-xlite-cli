@@ -13,7 +13,7 @@ const StopMonitoringService = {
     return http.get(url).pipe(
       mergeMap((t) => from(t)),
     ).pipe(
-      concatMap((t) => http.get(t.href), this.isValid),
+      concatMap((t) => http.get(t.href), this.valid),
       filter((t) => t !== undefined),
       take(10),
       reduce((accumulator, value) => accumulator.concat(value), []),
@@ -21,7 +21,7 @@ const StopMonitoringService = {
     );
   },
 
-  isValid(t, v) {
+  valid(t, v) {
     const { href } = t;
     const index = href.slice(href.lastIndexOf('#') + 1);
     const call = v.estimatedCalls[index];

@@ -10,4 +10,4 @@ export const MAXIMUM_NUMBER_CALLS_OF_PREVIOUS = 'MaximumNumberOfCalls.Previous';
 
 export const ZOOM = 14;
 export const SEP = '/';
-export const DEVELOPEMENT_HOST = 'https://localhost:8443';
+export const DEVELOPEMENT_HOST = 'http://localhost:8181';

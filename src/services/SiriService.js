@@ -4,8 +4,14 @@ import { from } from 'rxjs';
 import * as T from '../types';
 
 const SiriService = {
+
+  absolute(url) {
+    const r = new RegExp('^(?:[a-z]+:)?//', 'i');
+    return r.test(url);
+  },
+
   get(url) {
-    const request = (process.env.NODE_ENV !== 'production') ? T.DEVELOPEMENT_HOST + url : url;
+    const request = ((process.env.NODE_ENV !== 'production') && !this.absolute(url)) ? T.DEVELOPEMENT_HOST + url : url;
 
     return from(fetch(request, { headers: { Accept: 'application/json' } })
       .then((response) => {
