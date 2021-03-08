@@ -65,7 +65,7 @@ class StopMonitoringComponent extends React.Component {
     );
 
     const Rows = (props) => ((props.values) ? (props.values.map(
-      (value) => <Row value={value} key={value.datedVehicleJourneyRef} />,
+      (value) => <Row value={value} key={`${value.datedVehicleJourneyRef}-${value.index}`} />,
     )) : (null));
 
     const title = `#${this.counter} StopMonitoring: ${name}`;

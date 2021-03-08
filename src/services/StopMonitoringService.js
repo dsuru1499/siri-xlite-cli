@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
 import { from } from 'rxjs';
 // eslint-disable-next-line object-curly-newline
-import { mergeMap, reduce, concatMap, take, tap, filter } from 'rxjs/operators';
+import { mergeMap, reduce, concatMap, take, tap, map, filter } from 'rxjs/operators';
+import { concatMapEager } from 'rxjs-etc/operators';
 import http from './SiriService';
 import * as T from '../types';
 
@@ -11,9 +12,14 @@ const StopMonitoringService = {
     url += T.SEP + options[T.MONITORING_REF];
     console.time('stop-monitoring');
     return http.get(url).pipe(
-      mergeMap((t) => from(t)),
+      mergeMap(from),
     ).pipe(
-      concatMap((t) => http.get(t.href), this.valid),
+      concatMapEager((t) => {
+        const x = t;
+        return http.get(t.href).pipe(
+          map((v) => this.valid(x, v)),
+        );
+      }, 3),
       filter((t) => t !== undefined),
       take(10),
       reduce((accumulator, value) => accumulator.concat(value), []),

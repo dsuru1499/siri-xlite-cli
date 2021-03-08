@@ -25,6 +25,7 @@
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "rxjs": "^6.6.0",
+    "rxjs-etc": "^10.5.2",
     "use-interval": "^1.2.1"
   },
   "scripts": {
