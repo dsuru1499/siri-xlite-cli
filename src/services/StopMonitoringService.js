@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { from } from 'rxjs';
 // eslint-disable-next-line object-curly-newline
-import { mergeMap, reduce, concatMap, take, tap, map, filter } from 'rxjs/operators';
+import { mergeMap, reduce, take, tap, map, filter } from 'rxjs/operators';
 import { concatMapEager } from 'rxjs-etc/operators';
 import http from './SiriService';
 import * as T from '../types';
